@@ -22,7 +22,7 @@ public class HelloController {
     @FXML private Button btnMinus;
     @FXML private Button btn1;
     @FXML private Button btn2;
-    @FXML private Button btn3;   // ⚠️ maybe rename to btn3 in both FXML + code for consistency
+    @FXML private Button btn3;   // maybe rename to btn3 in both FXML + code for consistency
     @FXML private Button btnPlus;
     @FXML private Button btn0;
     @FXML private Button btnComma;
