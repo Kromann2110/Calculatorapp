@@ -7,7 +7,9 @@ public class Calculator {
             case "+": return a + b;
             case "-": return a - b;
             case "X": return a * b;
-            case "/": return b != 0 ? a / b : 0; // avoid divide by zero
+            case "/":
+                if (b == 0) throw new IllegalArgumentException("Cannot divide by zero");
+                return a / b;
             default: throw new IllegalArgumentException("Invalid operator: " + operator);
         }
     }

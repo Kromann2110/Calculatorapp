@@ -1,5 +1,6 @@
 package dk.easv.countculator1;
 
+import dk.easv.countculator1.business.Calculator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -22,11 +23,14 @@ public class CalculatorController {
     @FXML private Button btnMinus;
     @FXML private Button btn1;
     @FXML private Button btn2;
-    @FXML private Button btn3;   // maybe rename to btn3 in both FXML + code for consistency
+    @FXML private Button btn3;
     @FXML private Button btnPlus;
     @FXML private Button btn0;
     @FXML private Button btnComma;
     @FXML private Button btnEqual;
+
+    // Calculator instance
+    private Calculator calculator = new Calculator();
 
     // Calculator state
     private double firstNumber = 0;
@@ -91,10 +95,15 @@ public class CalculatorController {
     }
 
     private void calculateResult() {
-        double secondNumber = Double.parseDouble(Result.getText().replace(",", "."));
-        double result = calculate(firstNumber, secondNumber, operator);
-        Result.setText(String.valueOf(result));
-        startNewNumber = true;
+        try {
+            double secondNumber = Double.parseDouble(Result.getText().replace(",", "."));
+            double result = calculator.calculate(firstNumber, secondNumber, operator);
+            Result.setText(String.valueOf(result));
+            startNewNumber = true;
+        } catch (IllegalArgumentException e) {
+            Result.setText(e.getMessage());
+            startNewNumber = true;
+        }
     }
 
     private void clear() {
@@ -107,18 +116,8 @@ public class CalculatorController {
     private void toggleSign() {
         if (!Result.getText().isEmpty()) {
             double current = Double.parseDouble(Result.getText().replace(",", "."));
-            current = -current;
+            current = calculator.toggleSign(current);
             Result.setText(String.valueOf(current));
         }
-    }
-
-    private double calculate(double a, double b, String op) {
-        return switch (op) {
-            case "+" -> a + b;
-            case "-" -> a - b;
-            case "X" -> a * b;
-            case "/" -> b != 0 ? a / b : 0; // safe divide
-            default -> 0;
-        };
     }
 }
